@@ -1,0 +1,46 @@
+.edit-task {
+    padding: 20px;
+    box-sizing: border-box;
+
+    .wrapper {
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        .form {
+            width: 550px;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+            border-radius: 5px;
+
+            .input {
+                input, textarea, select {
+                    width: 100%;
+                    padding: 5px;
+                    box-sizing: border-box; 
+                    border: 1px solid rgba(0, 0, 0, .5);
+                    border-radius: 5px;
+                }
+            }
+
+            .update {
+                border-radius: 5px;
+                padding: 5px 10px;
+                background: var(--color-warning);
+            }
+        }
+    }
+
+    .back-to-list {
+        padding: 10px 20px;
+        box-sizing: border-box;
+        background: var(--color-info);
+        border-radius: 5px;
+
+        &:hover {
+            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, .5);
+        }
+    }
+}

@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
+<link rel="stylesheet/less" href="{{ url_for('static', filename='navbar.less') }}" />
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/less@4.1.1" ></script>
 <nav class="navbar">
@@ -10,7 +10,7 @@
       {% if is_logged_in %}
       <p>
         Hi,
-        <span class="username">{{ current_user }}</span>
+        <span class="username">{{ current_user.username }}</span>
       </p>
       <a class="logout" href="{{ url_for('logout') }}">
         <img src="/static/images/logout.svg" alt="Logo" />

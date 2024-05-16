@@ -18,41 +18,45 @@
     <div class="home">
       <h1 class="text-xl font-bold text-center mb-5">Danh sách nhiệm vụ</h1>
 
+      {% if current_user.role == 'admin' %}
       <a class="flex mb-3" href="{{ url_for('add_task') }}">
-        <div class="add-task">
-            Add Task
-        </div>
+        <div class="add-task">Thêm nhiệm vụ</div>
       </a>
+      {% endif %}
       <ul class="list-task">
         {% for task in tasks %}
-        <li class="task">
-          <div class="group-info">
-            <h3 class="title">{{ task.title }}</h3>
-            <hr class="mt-2 mb-3" />
-            <div class="flex justify-between items-center mb-2">
-              <p>Ưu tiên:</p>
-              <p class="font-bold">{{ task.priority }}</p>
+          {% if task.assigned_to == current_user.username or current_user.role == 'admin' %}
+          <li class="task">
+            <div class="group-info">
+              <h3 class="title">{{ task.title }}</h3>
+              <hr class="mt-2 mb-3" />
+              <div class="flex justify-between items-center mb-2">
+                <p>Ưu tiên:</p>
+                <p class="font-bold">
+                  {% if task.priority == 'low' %} Thấp {% elif task.priority ==
+                  'medium' %} Trung bình {% else %} Cao {% endif %}
+                </p>
+              </div>
+              <div class="flex justify-between items-center mb-2">
+                <p>Người thực hiện:</p>
+                <p class="font-bold">{{ task.assigned_to }}</p>
+              </div>
+              <div class="flex justify-between items-center mb-2">
+                <p>Trạng thái :</p>
+                <p
+                  class="{% if task.completed == 'True' %} color-success {% else %} color-warning {% endif %} font-bold"
+                >
+                  {% if task.completed == 'True' %} Hoàn thành {% else %} Đang
+                  thực hiện {% endif %}
+                </p>
+              </div>
+              <p class="mb-2 text-xs">{{ task.description }}</p>
             </div>
-            <div class="flex justify-between items-center mb-2">
-              <p>Người thực hiện:</p>
-              <p class="font-bold">{{ task.assigned_to }}</p>
-            </div>
-            <div class="flex justify-between items-center mb-2">
-              <p>Status:</p>
-              <p
-                class="{% if task.completed == 'True' %} color-success {% else %} color-warning {% endif %} font-bold"
-              >
-                {% if task.completed == 'True' %} Done {% else %} Working {%
-                endif %}
-              </p>
-            </div>
-            <p class="mb-2 text-xs">{{ task.description }}</p>
-          </div>
-          <div class="group-btn mt-3">
-            {% if task.assigned_to == current_user %}
+            <div class="group-btn mt-3">
+              {% if task.assigned_to == current_user.username or current_user.role == 'admin' %}
               {% if task.completed == 'True' %}
               <a
-                class="btn btn-danger"
+                class="btn bg-danger"
                 href="{{ url_for('not_complete_task', index=loop.index - 1) }}"
                 >Đang làm</a
               >
@@ -63,19 +67,23 @@
                 >Hoàn thành</a
               >
               {% endif %}
-            {% endif %}
-            <a
-              class="btn bg-warning"
-              href="{{ url_for('edit_task', index=loop.index - 1) }}"
-              >Sửa</a
-            >
-            <a
-              class="btn bg-danger"
-              href="{{ url_for('delete_task', index=loop.index - 1) }}"
-              >Xoá</a
-            >
-          </div>
-        </li>
+              {% endif %}
+              {% if current_user.role == 'admin' %}
+              <a
+                class="btn bg-warning"
+                href="{{ url_for('edit_task', index=loop.index - 1) }}"
+                >Sửa</a
+              >
+              <a
+                class="btn bg-danger"
+                href="{{ url_for('delete_task', index=loop.index - 1) }}"
+              >
+                Xoá
+              </a>
+              {% endif %}
+            </div>
+          </li>
+          {% endif %}
         {% endfor %}
       </ul>
     </div>

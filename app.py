@@ -13,7 +13,7 @@ def load_users():
     with open('users.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
-            users.append(User(row[0], row[1]))
+            users.append(User(row[0], row[1], row[2]))
     return users
 
 def save_user(user):
@@ -22,7 +22,7 @@ def save_user(user):
         return False
     with open('users.csv', 'a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow([user.username, user.password])
+        writer.writerow([user.username, user.password, user.role])
     return True
 
 def is_logged_in():
@@ -30,7 +30,11 @@ def is_logged_in():
 
 def current_user():
     if 'username' in session:
-        return session['username']
+        username = session['username']
+        users = load_users()
+        user = next((user for user in users if user.username == username), None)
+        if user:
+            return {'username': username, 'role': user.role}
     return None
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -44,6 +48,7 @@ def login():
         user = next((user for user in users if user.username == username and user.password == password), None)
         if user:
             session['username'] = user.username
+            session['role'] = user.role
             return redirect(url_for('index'))
         else:
             error = 'Invalid username or password.'
@@ -103,6 +108,10 @@ def add_task():
     if not is_logged_in():
         return redirect(url_for('login'))
     
+    user = current_user()
+    if user and user['role'] != 'admin':
+        return redirect(url_for('index'))
+    
     users = load_users()
 
     form = TaskForm()
@@ -132,16 +141,24 @@ def add_task():
 def delete_task(index):
     if not is_logged_in():
         return redirect(url_for('login'))
-    tasks = load_tasks()
-    del tasks[index]
-    save_tasks(tasks)
-    return redirect(url_for('index'))
+    
+    user = current_user()
+    if user and user['role'] == 'admin':
+        tasks = load_tasks()
+        del tasks[index]
+        save_tasks(tasks)
+        return redirect(url_for('index'))
+    
 
 # Route chỉnh sửa task
 @app.route('/edit_task/<int:index>', methods=['GET', 'POST'])
 def edit_task(index):
     if not is_logged_in():
         return redirect(url_for('login'))
+    
+    user = current_user()
+    if user and user['role'] != 'admin':
+        return redirect(url_for('index'))
     
     print(index)
     tasks = load_tasks()
@@ -166,9 +183,6 @@ def complete_task(index):
     if not is_logged_in():
         return redirect(url_for('login'))
     tasks = load_tasks()
-    # tasks[index].completed = True
-    # save_tasks(tasks)
-    # return redirect(url_for('index'))
     current_user = session.get('username')
     if tasks[index].assigned_to != current_user:
         flash("You cannot complete tasks assigned to others.")
