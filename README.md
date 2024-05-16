@@ -6,6 +6,19 @@
 
 # Giới Thiệu Dự Án ToDoList
 
+---
+
+<ul>
+    <li><a href="#tong-quan">Tổng Quan</a></li>
+    <li><a href="#cac-tinh-nang-chinh">Các Tính Năng Chính</a></li>
+    <li><a href="#cach-su-dung">Cách Sử Dụng</a></li>
+    <li><a href="#cach-trien-khai">Cách Triển Khai</a></li>
+    <li><a href="#doi-ngu-phat-trien">Đội Ngũ Phát Triển</a></li>
+    <li><a href="#lien-he">Liên hệ</a></li>
+</ul>
+
+---
+
 ## Tổng Quan
 
 Dự án ToDoList là một ứng dụng web giúp người dùng quản lý các công việc cần hoàn thành thông qua việc tạo, sửa đổi và xóa các nhiệm vụ. Ứng dụng cũng hỗ trợ tính năng đăng nhập và đăng ký người dùng, và cung cấp vai trò khác nhau cho người dùng.
@@ -50,5 +63,5 @@ Dự án ToDoList là một ứng dụng web giúp người dùng quản lý cá
 - **Thiết Kế Giao Diện:** [Dubravko Luka](https://github.com/dubravko-luka)
 
 ---
-
+## Liên hệ
 Cảm ơn bạn đã quan tâm đến dự án ToDoList của chúng tôi. Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào, vui lòng liên hệ với chúng tôi qua email hoặc các kênh liên lạc khác.
