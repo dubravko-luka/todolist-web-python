@@ -58,6 +58,5 @@ Dự án ToDoList là một ứng dụng web giúp người dùng quản lý cá
 - **Lập Trình Viên:** [Dubravko Luka](https://github.com/dubravko-luka)
 - **Thiết Kế Giao Diện:** [Dubravko Luka](https://github.com/dubravko-luka)
 
----
 ## Liên hệ
 Cảm ơn bạn đã quan tâm đến dự án ToDoList của chúng tôi. Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào, vui lòng liên hệ với chúng tôi qua email hoặc các kênh liên lạc khác.
