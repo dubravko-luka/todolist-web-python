@@ -4,17 +4,13 @@
 
 ---
 
-# Giới Thiệu Dự Án ToDoList
-
----
-
 <ul>
-    <li><a href="#tong-quan">Tổng Quan</a></li>
-    <li><a href="#cac-tinh-nang-chinh">Các Tính Năng Chính</a></li>
-    <li><a href="#cach-su-dung">Cách Sử Dụng</a></li>
-    <li><a href="#cach-trien-khai">Cách Triển Khai</a></li>
-    <li><a href="#doi-ngu-phat-trien">Đội Ngũ Phát Triển</a></li>
-    <li><a href="#lien-he">Liên hệ</a></li>
+    <li><a href="#tổng-quan">Tổng Quan</a></li>
+    <li><a href="#các-tính-năng-chính">Các Tính Năng Chính</a></li>
+    <li><a href="#cách-sử-dụng">Cách Sử Dụng</a></li>
+    <li><a href="#cách-triển-khai">Cách Triển Khai</a></li>
+    <li><a href="#đội-ngũ-phát-triển">Đội Ngũ Phát Triển</a></li>
+    <li><a href="#liên-hệ">Liên hệ</a></li>
 </ul>
 
 ---
