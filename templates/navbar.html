@@ -1,16 +1,24 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/less@4.1.1" ></script>
 <nav class="navbar">
-    <div class="container">
-        <div class="logo">
-            <img src="/static/logo.svg" alt="Logo">
-        </div>
-        <div class="user-info">
-            {% if is_logged_in %}
-                <p>Welcome, {{ current_user }}</p>
-                <a href="{{ url_for('logout') }}">Logout</a>
-            {% else %}
-                <a href="{{ url_for('login') }}">Login</a>
-                <a href="{{ url_for('register') }}">Register</a>
-            {% endif %}
-        </div>
+  <div class="container">
+    <div class="logo">
+      <img src="/static/images/logo.svg" alt="Logo" />
     </div>
+    <div class="user-info">
+      {% if is_logged_in %}
+      <p>
+        Hi,
+        <span class="username">{{ current_user }}</span>
+      </p>
+      <a class="logout" href="{{ url_for('logout') }}">
+        <img src="/static/images/logout.svg" alt="Logo" />
+      </a>
+      {% else %}
+      <a class="link-auth" href="{{ url_for('login') }}">Login</a>
+      <a class="link-auth" href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+    </div>
+  </div>
 </nav>

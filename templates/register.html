@@ -1,24 +1,46 @@
 <!-- register.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet/less"
+      href="{{ url_for('static', filename='register.less') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='global.css') }}"
+    />
+  </head>
+  <body>
     {% include 'navbar.html' %}
-    <h2>Register</h2>
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% endif %}
-    <form method="POST" action="{{ url_for('register') }}">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br>
-        <input type="submit" value="Register">
-    </form>
-</body>
+    <div class="wrapper">
+      <div class="form-register">
+        <h2 class="text-center font-bold text-xl">Register</h2>
+        <form method="POST" action="{{ url_for('register') }}">
+          <label for="username">Username:</label><br />
+          <input class="my-2" type="text" id="username" name="username" /><br />
+          <label for="password">Password:</label><br />
+          <input
+            class="my-2"
+            type="password"
+            id="password"
+            name="password"
+          /><br />
+          {% if error %}
+          <p class="text-danger">{{ error }}</p>
+          {% endif %}
+          <div class="flex justify-center">
+            <input
+              class="mt-4 mx-auto btn-submit"
+              type="submit"
+              value="Register"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

@@ -1,24 +1,46 @@
 <!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet/less"
+      href="{{ url_for('static', filename='login.less') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='global.css') }}"
+    />
+  </head>
+  <body>
     {% include 'navbar.html' %}
-    <h2>Login</h2>
-    <form method="POST" action="{{ url_for('login') }}">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br>
-        <input type="submit" value="Login">
-    </form>
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
-</body>
+    <div class="wrapper">
+      <div class="form-login">
+        <h2 class="text-center font-bold text-xl">Login</h2>
+        <form method="POST" action="{{ url_for('login') }}">
+          <label class="text-sm" for="username">Username:</label>
+          <input class="my-2" type="text" id="username" name="username" /><br />
+          <label for="password">Password:</label><br />
+          <input
+            class="my-2"
+            type="password"
+            id="password"
+            name="password"
+          /><br />
+          {% if error %}
+          <p class="text-danger">{{ error }}</p>
+          {% endif %}
+          <div class="flex justify-center">
+            <input
+              class="mt-4 mx-auto btn-submit"
+              type="submit"
+              value="Login"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

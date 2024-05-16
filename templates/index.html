@@ -1,51 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ToDo List</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='global.css') }}"
+    />
+    <link
+      rel="stylesheet/less"
+      href="{{ url_for('static', filename='index.less') }}"
+    />
+  </head>
+  <body>
     {% include 'navbar.html' %}
-    <h1>ToDo List</h1>
-    <!-- Hiển thị Flash messages -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class="flash-messages">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-    <ul>
+    <div class="home">
+      <h1 class="text-xl font-bold text-center mb-5">Danh sách nhiệm vụ</h1>
+
+      <a class="flex mb-3" href="{{ url_for('add_task') }}">
+        <div class="add-task">
+            Add Task
+        </div>
+      </a>
+      <ul class="list-task">
         {% for task in tasks %}
-        <li>
-            <h3>{{ task.title }}</h3>
-            <p>{{ task.description }}</p>
-            <p>Priority: {{ task.priority }}</p>
-            <p>Assigned To: {{ task.assigned_to }}</p>
-            <p>
-                Status: 
-                {% if task.completed == 'True' %}
-                    Done
-                {% else %}
-                    Not Done
-                {% endif %}
-            </p>
-            {% if task.completed == 'True' %}
-                <a href="{{ url_for('not_complete_task', index=loop.index - 1) }}">Mark as Not Done</a>
-            {% else %}
-                <a href="{{ url_for('complete_task', index=loop.index - 1) }}">Mark as Done</a>
+        <li class="task">
+          <div class="group-info">
+            <h3 class="title">{{ task.title }}</h3>
+            <hr class="mt-2 mb-3" />
+            <div class="flex justify-between items-center mb-2">
+              <p>Ưu tiên:</p>
+              <p class="font-bold">{{ task.priority }}</p>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+              <p>Người thực hiện:</p>
+              <p class="font-bold">{{ task.assigned_to }}</p>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+              <p>Status:</p>
+              <p
+                class="{% if task.completed == 'True' %} color-success {% else %} color-warning {% endif %} font-bold"
+              >
+                {% if task.completed == 'True' %} Done {% else %} Working {%
+                endif %}
+              </p>
+            </div>
+            <p class="mb-2 text-xs">{{ task.description }}</p>
+          </div>
+          <div class="group-btn mt-3">
+            {% if task.assigned_to == current_user %}
+              {% if task.completed == 'True' %}
+              <a
+                class="btn btn-danger"
+                href="{{ url_for('not_complete_task', index=loop.index - 1) }}"
+                >Đang làm</a
+              >
+              {% else %}
+              <a
+                class="btn bg-success"
+                href="{{ url_for('complete_task', index=loop.index - 1) }}"
+                >Hoàn thành</a
+              >
+              {% endif %}
             {% endif %}
-            <a href="{{ url_for('edit_task', index=loop.index - 1) }}">Edit</a>
-            <a href="{{ url_for('delete_task', index=loop.index - 1) }}">Delete</a>
+            <a
+              class="btn bg-warning"
+              href="{{ url_for('edit_task', index=loop.index - 1) }}"
+              >Sửa</a
+            >
+            <a
+              class="btn bg-danger"
+              href="{{ url_for('delete_task', index=loop.index - 1) }}"
+              >Xoá</a
+            >
+          </div>
         </li>
         {% endfor %}
-    </ul>   
-      
-    <a href="{{ url_for('add_task') }}">Add Task</a>
-</body>
+      </ul>
+    </div>
+  </body>
 </html>

@@ -1,0 +1,14 @@
+:root {
+    --height-navbar: 65px;
+    --color-primary: #1677ff;
+    --color-success: #52c41a;
+    --color-warning: #faad14;
+    --color-danger: #FF0000;
+    --color-info: #A7A7A7;
+    --color-link: #005cde;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0px;
+    padding: 0;
+}

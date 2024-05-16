@@ -1,27 +1,51 @@
+
 .navbar {
     background-color: #333;
     color: #fff;
     padding: 10px 0;
+    height: var(--height-navbar);
+    box-sizing: border-box;
+}
+
+p, a {
+    margin: 0;
+    font-size: 14px;
 }
 
 .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .logo img {
     height: 40px;
 }
 
-.logout a {
-    color: #fff;
-    text-decoration: none;
+.logout img {
+    height: 30px;
 }
 
-.logout a:hover {
-    text-decoration: underline;
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.username {
+    color: coral;
+}
+
+.link-auth {
+    text-decoration: none;
+    color: #fff;
+}
+
+.link-auth:hover {
+    color: coral;
 }
