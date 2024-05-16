@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Task</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h1>Edit Task</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.title.label }} {{ form.title(size=50) }}
+        </div>
+        <div>
+            {{ form.description.label }} {{ form.description(rows=10, cols=50) }}
+        </div>
+        <div>
+            {{ form.priority.label }} {{ form.priority() }}
+        </div>
+        <div class="form-group">
+            <label for="assigned_to">Assigned To:</label>
+            <select name="assigned_to" id="assigned_to">
+                {% for user in users %}
+                    <option value="{{ user.username }}" {% if user.username == form.assigned_to.data %} selected {% endif %}>{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit">Update</button>
+    </form>
+    <a href="{{ url_for('index') }}">Back to ToDo List</a>
+</body>
+</html>

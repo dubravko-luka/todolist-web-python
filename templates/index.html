@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h1>ToDo List</h1>
+    <!-- Hiển thị Flash messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <ul>
+        {% for task in tasks %}
+        <li>
+            <h3>{{ task.title }}</h3>
+            <p>{{ task.description }}</p>
+            <p>Priority: {{ task.priority }}</p>
+            <p>Assigned To: {{ task.assigned_to }}</p>
+            <p>
+                Status: 
+                {% if task.completed == 'True' %}
+                    Done
+                {% else %}
+                    Not Done
+                {% endif %}
+            </p>
+            {% if task.completed == 'True' %}
+                <a href="{{ url_for('not_complete_task', index=loop.index - 1) }}">Mark as Not Done</a>
+            {% else %}
+                <a href="{{ url_for('complete_task', index=loop.index - 1) }}">Mark as Done</a>
+            {% endif %}
+            <a href="{{ url_for('edit_task', index=loop.index - 1) }}">Edit</a>
+            <a href="{{ url_for('delete_task', index=loop.index - 1) }}">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>   
+      
+    <a href="{{ url_for('add_task') }}">Add Task</a>
+</body>
+</html>

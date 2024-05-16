@@ -1,0 +1,16 @@
+<nav class="navbar">
+    <div class="container">
+        <div class="logo">
+            <img src="/static/logo.svg" alt="Logo">
+        </div>
+        <div class="user-info">
+            {% if is_logged_in %}
+                <p>Welcome, {{ current_user }}</p>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
