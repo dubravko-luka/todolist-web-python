@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from auth import load_users, save_user, is_logged_in, current_user, logout
 from forms import TaskForm
 from models import Task
 from models import User
@@ -8,34 +9,34 @@ import os
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 
-def load_users():
-    users = []
-    with open('users.csv', 'r') as file:
-        reader = csv.reader(file)
-        for row in reader:
-            users.append(User(row[0], row[1], row[2]))
-    return users
+# def load_users():
+#     users = []
+#     with open('users.csv', 'r') as file:
+#         reader = csv.reader(file)
+#         for row in reader:
+#             users.append(User(row[0], row[1], row[2]))
+#     return users
 
-def save_user(user):
-    users = load_users()
-    if any(existing_user.username == user.username for existing_user in users):
-        return False
-    with open('users.csv', 'a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([user.username, user.password, user.role])
-    return True
+# def save_user(user):
+#     users = load_users()
+#     if any(existing_user.username == user.username for existing_user in users):
+#         return False
+#     with open('users.csv', 'a', newline='') as file:
+#         writer = csv.writer(file)
+#         writer.writerow([user.username, user.password, user.role])
+#     return True
 
-def is_logged_in():
-    return 'username' in session
+# def is_logged_in():
+#     return 'username' in session
 
-def current_user():
-    if 'username' in session:
-        username = session['username']
-        users = load_users()
-        user = next((user for user in users if user.username == username), None)
-        if user:
-            return {'username': username, 'role': user.role}
-    return None
+# def current_user():
+#     if 'username' in session:
+#         username = session['username']
+#         users = load_users()
+#         user = next((user for user in users if user.username == username), None)
+#         if user:
+#             return {'username': username, 'role': user.role}
+#     return None
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -71,9 +72,10 @@ def register():
     return render_template('register.html', error=error, is_logged_in=is_logged_in())
 
 @app.route('/logout')
-def logout():
-    session.pop('username', None)
-    return redirect(url_for('login'))
+def logout_route():
+    return logout()
+    # session.pop('username', None)
+    # return redirect(url_for('login'))
 
 # Hàm load_tasks(): Load danh sách tasks từ file CSV
 def load_tasks():
