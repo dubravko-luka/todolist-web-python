@@ -27,9 +27,9 @@ Dự án ToDoList là một ứng dụng web giúp người dùng quản lý cá
 3. **Quản lý nhiệm vụ:** Người dùng có thể tạo, chỉnh sửa và xóa các nhiệm vụ trong danh sách ToDoList.
 ![Logo](/readme/home.png)
 4. **Tạo nhiệm vụ:** Chỉ có thể tạo 1 nhiệm vụ mới cho 1 người.
-![Logo](/readme/home.png)
+![Logo](/readme/create.png)
 5. **Chỉnh sửa nhiệm vụ:** Chỉ có Admin có thể chỉnh sửa 1 nhiệm vụ.
-![Logo](/readme/home.png)
+![Logo](/readme/edit.png)
 6. **Xoá nhiệm vụ:** Chỉ có Admin có thể xoá 1 nhiệm vụ.
 7. **Đánh dấu hoàn thành:** Người dùng có thể đánh dấu các nhiệm vụ chưa hoàn thành thành hoàn thành.
 8. **Đánh dấu chưa hoàn thành:** Người dùng có thể đánh dấu các nhiệm vụ đã hoàn thành thành chưa hoàn thành.
