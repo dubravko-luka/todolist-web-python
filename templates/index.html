@@ -50,7 +50,7 @@
                   thực hiện {% endif %}
                 </p>
               </div>
-              <p class="mb-2 text-xs">{{ task.description }}</p>
+              <p class="mb-2 text-xs whitespace-pre-wrap">{{ task.description }}</p>
             </div>
             <div class="group-btn mt-3">
               {% if task.assigned_to == current_user.username or current_user.role == 'admin' %}

@@ -1,3 +1,19 @@
 title,description,priority,assigned_to,completed
-Meeting 2:00PM,"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",medium,user1,False
-Interview,"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",high,user2,False
+Thêm chức năng deadline,"Thêm chức năng deadline cho task
+Nếu task quá deadline thì cảnh báo
+Thêm chức năng lọc ra những task quá hạn",medium,user1,False
+Thêm và hiển thị ngày giờ,"Thêm phần ngày tạo cho task
+Hiển thị task được tạo vào lúc nào
+Hiển thị task hết deadline lúc nào",low,user2,False
+Create Feature User,"Tạo thêm chức năng sau:
+- Load danh sách user
+- Phần quyền user thành mod
+- Mod có quyền:
+      + Thêm
+      + Xoá
+      + Sửa
+      + Không có quyền phân quyền user",high,admin,False
+Thêm deadline vào page tạo task,Trong page tạo task thêm phần deadline,low,user3,False
+Thêm deadline vào page sửa task,Trong page chỉnh sửa task thêm phần deadline,low,user2,False
+Học online,"Chiều 17/05/2024 học online
+Môn Python",high,admin,False
