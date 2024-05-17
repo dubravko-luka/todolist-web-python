@@ -1,10 +1,4 @@
 title,description,priority,assigned_to,completed
-Thêm chức năng deadline,"Thêm chức năng deadline cho task
-Nếu task quá deadline thì cảnh báo
-Thêm chức năng lọc ra những task quá hạn",medium,user1,False
-Thêm và hiển thị ngày giờ,"Thêm phần ngày tạo cho task
-Hiển thị task được tạo vào lúc nào
-Hiển thị task hết deadline lúc nào",low,user2,False
 Create Feature User,"Tạo thêm chức năng sau:
 - Load danh sách user
 - Phần quyền user thành mod
