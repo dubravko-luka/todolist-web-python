@@ -13,10 +13,9 @@
             box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, .5);
         }
     }
-
-    .list-task {
+    .list-task, .mission {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
 
         .task {
@@ -72,5 +71,30 @@
                 color: var(--color-success);
             }
         }
+    }
+
+    .colGrid:nth-child(2) {
+        border-left: 1px solid #000;
+        border-right: 1px solid #000;
+    }
+
+    .colGrid {
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .progress-bar {
+        width: 100%;
+        background-color: #f3f3f3;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        height: 10px;
+    }
+
+    .progress {
+        height: 100%;
+        background-color: var(--color-primary);
     }
 }

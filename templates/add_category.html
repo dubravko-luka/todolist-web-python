@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Category</title>
+    
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='global.css') }}"
+    />
+    <link
+      rel="stylesheet/less"
+      href="{{ url_for('static', filename='add-category.less') }}"
+    />
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="add-category">
+        <h1 class="text-xl font-bold text-center mb-5">Thêm danh mục</h1>
+        <div class="wrapper">
+            <form class="form" method="POST">
+                <label for="category_name">Tên danh mục:</label>
+                <div class="input mb-2">
+                    <input type="text" id="category_name" name="category_name" required>
+                </div>
+                {% if error %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endif %}
+                <div class="flex justify-center mt-3">
+                    <button class="update" type="submit">Thêm</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="flex justify-center mt-4">
+            <div class="back-to-list">
+            <a href="{{ url_for('index') }}">Quay lại danh sách </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

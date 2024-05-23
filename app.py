@@ -1,6 +1,7 @@
 from flask import Flask
 from auth import logout_route, register_route, login_route
-from task import index_route, add_task_route, delete_task_route, edit_task_route, complete_task_route, not_complete_task_route
+from task import index_route, add_task_route, delete_task_route, edit_task_route, complete_task_route, not_complete_task_route, update_progress_route
+from category import add_category_route
 import os
 
 app = Flask(__name__)
@@ -42,5 +43,13 @@ def complete_task(index):
 def not_complete_task(index):
     return not_complete_task_route(index)
 
+@app.route('/add_category', methods=['GET', 'POST'])
+def add_category():
+    return add_category_route()
+
+@app.route('/update_progress/<task_id>', methods=['POST'])
+def update_progress(task_id):
+    return update_progress_route(task_id)
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

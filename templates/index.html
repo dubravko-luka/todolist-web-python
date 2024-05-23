@@ -12,80 +12,180 @@
       rel="stylesheet/less"
       href="{{ url_for('static', filename='index.less') }}"
     />
+    <script>
+      function updateProgress(taskId, progressValue) {
+        fetch(`/update_progress/${taskId}?progress=${progressValue}`, {
+            method: 'POST',
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update progress');
+            }
+
+            document.getElementById('progress_value_' + taskId).innerText = progressValue + '%';
+        })
+        .catch(error => {
+            console.error('Error updating progress:', error);
+        });
+      }
+    </script>
   </head>
   <body>
     {% include 'navbar.html' %}
     <div class="home">
       <h1 class="text-xl font-bold text-center mb-5">Danh sách nhiệm vụ</h1>
 
-      {% if current_user.role == 'admin' %}
-      <a class="flex mb-3" href="{{ url_for('add_task') }}">
-        <div class="add-task">Thêm nhiệm vụ</div>
-      </a>
-      {% endif %}
-      <ul class="list-task">
-        {% for task in tasks %}
-          {% if task.assigned_to == current_user.username or current_user.role == 'admin' %}
-          <li class="task">
-            <div class="group-info">
-              <h3 class="title">{{ task.title }}</h3>
-              <hr class="mt-2 mb-3" />
-              <div class="flex justify-between items-center mb-2">
-                <p>Ưu tiên:</p>
-                <p class="font-bold">
-                  {% if task.priority == 'low' %} Thấp {% elif task.priority ==
-                  'medium' %} Trung bình {% else %} Cao {% endif %}
-                </p>
-              </div>
-              <div class="flex justify-between items-center mb-2">
-                <p>Người thực hiện:</p>
-                <p class="font-bold">{{ task.assigned_to }}</p>
-              </div>
-              <div class="flex justify-between items-center mb-2">
-                <p>Trạng thái :</p>
-                <p
-                  class="{% if task.completed == 'True' %} color-success {% else %} color-warning {% endif %} font-bold"
-                >
-                  {% if task.completed == 'True' %} Hoàn thành {% else %} Đang
-                  thực hiện {% endif %}
-                </p>
-              </div>
-              <p class="mb-2 text-xs whitespace-pre-wrap">{{ task.description }}</p>
-            </div>
-            <div class="group-btn mt-3">
-              {% if task.assigned_to == current_user.username or current_user.role == 'admin' %}
-              {% if task.completed == 'True' %}
-              <a
-                class="btn bg-danger"
-                href="{{ url_for('not_complete_task', index=loop.index - 1) }}"
-                >Đang làm</a
-              >
+      <div class="flex justify-start items-center gap-2">
+        <a class="flex mb-3" href="{{ url_for('add_task') }}">
+          <div class="add-task">Thêm nhiệm vụ</div>
+        </a>
+        <a class="flex mb-3" href="{{ url_for('add_category') }}">
+          <div class="add-task">Thêm danh mục</div>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-12 rounded-sm overflow-hidden border border-black">
+        <div class="col-span-2 colGrid">
+          <ul class="flex flex-wrap gap-x-2 gap-4">
+            {% for category in categories %}
+              {% if request.args.get('category') == category.id %}
+                <li>
+                  <span class="py-2 px-3 bg-neutral-300 hover:bg-neutral-300 text-black rounded cursor-not-allowed">
+                      {{ category.name }}
+                  </span>
+                </li>
               {% else %}
-              <a
-                class="btn bg-success"
-                href="{{ url_for('complete_task', index=loop.index - 1) }}"
-                >Hoàn thành</a
-              >
+                <li>
+                  <a href="{{ url_for('index', category=category.id) }}" class="py-2 px-3 bg-blue-700 hover:bg-blue-400 cursor-pointer rounded text-white">
+                      {{ category.name }}
+                  </a>
+                </li>
               {% endif %}
-              {% endif %}
-              {% if current_user.role == 'admin' %}
-              <a
-                class="btn bg-warning"
-                href="{{ url_for('edit_task', index=loop.index - 1) }}"
-                >Sửa</a
-              >
-              <a
-                class="btn bg-danger"
-                href="{{ url_for('delete_task', index=loop.index - 1) }}"
-              >
-                Xoá
-              </a>
-              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+
+
+        
+        
+        <div class="col-span-6 colGrid">
+          {% if tasks|length == 0 %}
+            <div class="w-full h-full flex justify-center items-center">
+              <p class="opacity-50 font-bold">Không tìm thấy dữ liệu</p>
             </div>
-          </li>
+          {% else %}
+            <h1 class="text-center text-xl font-bold mb-2">Danh sách nhiệm vụ</h1>
+            <hr />
+            <ul class="list-task mt-4">
+              {% for task in tasks %}
+                <li>
+                  <a class="task" href="{{ url_for('index', category=request.args.get('category'), detail=task.id) }}">
+                    <div class="group-info">
+                      <h3 class="title">{{ task.title }}</h3>
+                      <hr class="mt-2 mb-3" />
+                      <div class="flex justify-between items-center mb-2">
+                        <p>Ưu tiên:</p>
+                        <p class="font-bold">
+                          {% if task.priority == 'low' %} Thấp {% elif task.priority ==
+                          'medium' %} Trung bình {% else %} Cao {% endif %}
+                        </p>
+                      </div>
+                      <div class="flex justify-between items-center mb-2">
+                        <p>Trạng thái :</p>
+                        <p
+                          class="{% if task.completed == 'True' %} color-success {% else %} color-warning {% endif %} font-bold"
+                        >
+                          {% if task.completed == 'True' %} Hoàn thành {% else %} Đang
+                          thực hiện {% endif %}
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
           {% endif %}
-        {% endfor %}
-      </ul>
+        </div>
+
+
+
+
+        <div class="col-span-4 colGrid">
+          {% if detail_task == None %}
+            <div class="w-full h-full flex justify-center items-center">
+              <p class="opacity-50 font-bold">Không tìm thấy dữ liệu</p>
+            </div>
+          {% else %}
+            <h1 class="text-center text-xl font-bold mb-2">Chi tiết nhiệm vụ</h1>
+            <hr />
+            <ul class="mt-2 mission grid grid-cols-12">
+              <li class="task col-span-12 !shadow-none">
+                <div class="group-info">
+                  <h3 class="title !text-start">{{ detail_task.title }}</h3>
+                  <hr class="mt-2 mb-3" />
+                  <div class="flex justify-between items-center mb-2">
+                    <p>Ưu tiên:</p>
+                    <p class="font-bold">
+                      {% if detail_task.priority == 'low' %} Thấp {% elif detail_task.priority ==
+                      'medium' %} Trung bình {% else %} Cao {% endif %}
+                    </p>
+                  </div>
+                  <div class="flex justify-between items-center mb-2">
+                    <p>Trạng thái :</p>
+                    <p
+                      class="{% if detail_task.completed == 'True' %} color-success {% else %} color-warning {% endif %} font-bold"
+                    >
+                      {% if detail_task.completed == 'True' %} Hoàn thành {% else %} Đang
+                      thực hiện {% endif %}
+                    </p>
+                  </div>
+                  <div class="flex justify-between items-center mb-2">
+                    <p>Ngày tạo:</p>
+                    <p class="font-bold">{{ detail_task.created_date }}</p>
+                  </div>
+                  <div class="flex justify-between items-center mb-2 gap-3">
+                    <p class="whitespace-nowrap">Tiến độ:</p>
+                    <input {% if detail_task.completed == 'True' %} disabled {% endif %} onchange="updateProgress({{detail_task.id}}, this.value)" type="range" min="0" max="100" value="{{ detail_task.progress }}" step="1" class="progress-bar" id="progress_{{ detail_task.id }}">
+                    <span id="progress_value_{{ detail_task.id }}" class="text-right">{{ detail_task.progress }}%</span>
+                  </div>
+                  <div class="mb-2">
+                    <p>Mô tả:</p>
+                    <p class="mb-2 text-xs whitespace-pre-wrap">{{ detail_task.description }}</p>
+                  </div>
+                </div>
+                <div class="group-btn mt-3">
+                  {% if detail_task.completed == 'True' %}
+                  <a
+                    class="btn bg-danger"
+                    href="{{ url_for('not_complete_task', index=detail_task.id) }}"
+                    >Đang làm</a
+                  >
+                  {% else %}
+                  <a
+                    class="btn bg-success"
+                    href="{{ url_for('complete_task', index=detail_task.id) }}"
+                    >Hoàn thành</a
+                  >
+                  {% endif %}
+                  <a
+                    class="btn bg-warning"
+                    href="{{ url_for('edit_task', index=detail_task.id, category=request.args.get('category') ) }}"
+                    >Sửa</a
+                  >
+                  <a
+                    class="btn bg-danger"
+                    href="{{ url_for('delete_task', index=detail_task.id) }}"
+                  >
+                    Xoá
+                  </a>
+                </div>
+              </li>
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+      
     </div>
+    
   </body>
 </html>

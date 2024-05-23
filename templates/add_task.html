@@ -26,16 +26,8 @@
           <div class="input">{{ form.description }}</div>
           <div>{{ form.priority.label }}</div>
           <div class="input">{{ form.priority }}</div>
-          <div class="form-group mt-2">
-            <label for="assigned_to">Người thực hiện:</label>
-            <div class="input">
-              <select name="assigned_to" id="assigned_to">
-                {% for user in users %}
-                <option value="{{ user.username }}">{{ user.username }}</option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
+          <div class="form-group mt-2">{{ form.category.label }}</div>
+          <div class="input">{{ form.category() }}</div>
           <div class="flex justify-center mt-3">
             <button class="update" type="submit">Thêm</button>
           </div>
