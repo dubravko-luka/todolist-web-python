@@ -40,39 +40,29 @@
                         var categoryId = okButton.getAttribute('data-category-id');
 
                         var categoryNames = document.querySelectorAll('.name-cell');
-                        var isDuplicate = false;
-                        categoryNames.forEach(function(categoryName) {
-                            if (categoryName.textContent.trim() === newName) {
-                                isDuplicate = true;
+                        fetch('/categories', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: new URLSearchParams({
+                                'category_id': categoryId,
+                                'new_name': newName
+                            })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Failed to update category');
                             }
+                            return response.text();
+                        })
+                        .then(data => {
+                            // Reload the page to reflect the changes
+                            window.location.reload();
+                        })
+                        .catch(error => {
+                            console.error('Error updating category:', error);
                         });
-                        if (isDuplicate) {
-                            nameCell.querySelector('input').classList.add('!border-red-600');
-                        } else {
-                            fetch('/categories', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/x-www-form-urlencoded',
-                                },
-                                body: new URLSearchParams({
-                                    'category_id': categoryId,
-                                    'new_name': newName
-                                })
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Failed to update category');
-                                }
-                                return response.text();
-                            })
-                            .then(data => {
-                                // Reload the page to reflect the changes
-                                window.location.reload();
-                            })
-                            .catch(error => {
-                                console.error('Error updating category:', error);
-                            });
-                        }
                     });
         
                     cancelButton.addEventListener('click', function() {
@@ -138,7 +128,7 @@
 
         <div class="flex justify-center mt-4">
             <div class="back-to-list">
-                <a href="{{ url_for('index') }}">Quay lại danh sách </a>
+                <a href="{{ url_for('index') }}">Trang chủ </a>
             </div>
         </div>
     </div>
