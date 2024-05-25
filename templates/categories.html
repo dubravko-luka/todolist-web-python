@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category List</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='global.css') }}"
+    />
+    <link
+      rel="stylesheet/less"
+      href="{{ url_for('static', filename='categories.less') }}"
+    />
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var editButtons = document.querySelectorAll('.edit-button');
+        
+            editButtons.forEach(function(editButton) {
+                editButton.addEventListener('click', function() {
+                    var row = this.parentElement.parentElement;
+                    var nameCell = row.querySelector('.name-cell');
+                    var name = nameCell.textContent.trim();
+        
+                    nameCell.innerHTML = '<input class="input-edit-name" type="text" value="' + name + '">';
+        
+                    var actionsEditCell = row.querySelector('.edit-cell');
+                    actionsEditCell.querySelector('.edit-button').classList.add('hidden');
+                    actionsEditCell.querySelector('.ok-button').classList.remove('hidden');
+        
+                    var actionsDeleteCell = row.querySelector('.delete-cell');
+                    actionsDeleteCell.querySelector('.delete-button').classList.add('hidden');
+                    actionsDeleteCell.querySelector('.cancel-button').classList.remove('hidden');
+        
+                    var okButton = actionsEditCell.querySelector('.ok-button');
+                    var cancelButton = actionsDeleteCell.querySelector('.cancel-button');
+        
+                    okButton.addEventListener('click', function() {
+                        var newName = nameCell.querySelector('input').value;
+                        var categoryId = okButton.getAttribute('data-category-id');
+
+                        var categoryNames = document.querySelectorAll('.name-cell');
+                        var isDuplicate = false;
+                        categoryNames.forEach(function(categoryName) {
+                            if (categoryName.textContent.trim() === newName) {
+                                isDuplicate = true;
+                            }
+                        });
+                        if (isDuplicate) {
+                            nameCell.querySelector('input').classList.add('!border-red-600');
+                        } else {
+                            fetch('/categories', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                body: new URLSearchParams({
+                                    'category_id': categoryId,
+                                    'new_name': newName
+                                })
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Failed to update category');
+                                }
+                                return response.text();
+                            })
+                            .then(data => {
+                                // Reload the page to reflect the changes
+                                window.location.reload();
+                            })
+                            .catch(error => {
+                                console.error('Error updating category:', error);
+                            });
+                        }
+                    });
+        
+                    cancelButton.addEventListener('click', function() {
+                        nameCell.innerHTML = name;
+                        actionsEditCell.querySelector('.edit-button').classList.remove('hidden');
+                        actionsEditCell.querySelector('.ok-button').classList.add('hidden');
+                        actionsDeleteCell.querySelector('.delete-button').classList.remove('hidden');
+                        actionsDeleteCell.querySelector('.cancel-button').classList.add('hidden');
+                    });
+                });
+            });
+        });
+        
+    </script>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="categories">
+        <h1 class="text-xl font-bold text-center mb-5">Danh sách danh mục</h1>
+        <div class="flex justify-start items-center gap-2">
+            <a class="flex mb-3" href="{{ url_for('add_task') }}">
+              <div class="add-task">Thêm nhiệm vụ</div>
+            </a>
+            <a class="flex mb-3" href="{{ url_for('add_category') }}">
+              <div class="add-task">Thêm danh mục</div>
+            </a>
+          </div>
+
+        {% if error %}
+            <p class="text-danger">{{ error }}</p>
+        {% endif %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Tên danh mục</th>
+                    <th>Slug</th>
+                    <th class="!text-center">Sửa</th>
+                    <th class="!text-center">Xoá</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <td class="align-middle name-cell" align="center" width="60%">{{ category.name }}</td>
+                    <td class="align-middle" align="center" width="20%">{{ category.id }}</td>
+                    <td class="align-middle edit-cell" align="center" width="10%">
+                        <button class="edit-button btn bg-warning w-full" data-category-id="{{ category.id }}">Sửa</button>
+                        <button class="ok-button hidden btn bg-warning confirm-button w-full" data-category-id="{{ category.id }}">Đồng ý</button>
+                    </td>
+                    <td class="align-middle delete-cell" align="center" width="10%">
+                        <a class="delete-button" href="{{ url_for('delete_category', index=category.id ) }}">
+                            <button class="btn bg-danger w-full">
+                                Xoá
+                            </button>
+                        </a>
+                        <button class="cancel-button hidden btn bg-info cancel-button w-full" data-category-id="{{ category.id }}">Huỷ</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+        <div class="flex justify-center mt-4">
+            <div class="back-to-list">
+                <a href="{{ url_for('index') }}">Quay lại danh sách </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

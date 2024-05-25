@@ -1,7 +1,7 @@
 import csv
 from models import Category
 from flask import render_template, request, redirect, url_for
-from auth import is_logged_in, current_user
+from auth import is_logged_in, current_user, load_users
 from utils import generate_slug
 
 def load_categories():
@@ -25,7 +25,13 @@ def save_category(category_name, created_by):
         writer = csv.writer(file)
         writer.writerow([slug, category_name, created_by])
     return True
-    
+
+def save_categories(categories):
+    with open('database/categories.csv', 'w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        for category in categories:
+            slug = generate_slug(category.name)
+            writer.writerow([slug, category.name, category.created_by])
 
 def add_category_route():
     if not is_logged_in():
@@ -41,3 +47,50 @@ def add_category_route():
             return render_template('add_category.html', error=error, is_logged_in=is_logged_in(), current_user=current_user())
     
     return render_template('add_category.html', is_logged_in=is_logged_in(), current_user=current_user())
+
+def is_slug_exists(categories, new_slug):
+    for category in categories:
+        if category.id == new_slug:
+            return True
+    return False
+
+def categories_route():
+    if not is_logged_in():
+        return redirect(url_for('login'))
+    
+    user = current_user()
+    categories = load_user_categories(user['username'])
+    if request.method == 'POST':
+        category_id = request.form.get('category_id')
+        new_name = request.form.get('new_name')
+
+        categoriesAll = load_categories()
+
+        if is_slug_exists(categoriesAll, generate_slug(new_name)):
+            error = 'Category already exists.'
+            print(error)
+            return render_template('categories.html', error=error, categories=categories, is_logged_in=is_logged_in(), current_user=current_user())
+        
+        category = next((category for category in categoriesAll if category.id == category_id), None)
+        
+        category.name = new_name
+        save_categories(categoriesAll)
+
+        return redirect(url_for('categories'))
+    
+    return render_template('categories.html', categories=categories, is_logged_in=is_logged_in(), current_user=current_user())
+
+
+def delete_category_route(index):
+    if not is_logged_in():
+        return redirect(url_for('login'))
+    
+    categories = load_categories()
+
+    category = next((category for category in categories if category.id == index), None)
+
+    categories = [category for category in categories if category.id != index]
+    
+    save_categories(categories)
+    
+    return redirect(request.referrer)

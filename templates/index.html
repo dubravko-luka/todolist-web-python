@@ -42,21 +42,24 @@
         <a class="flex mb-3" href="{{ url_for('add_category') }}">
           <div class="add-task">Thêm danh mục</div>
         </a>
+        <a class="flex mb-3" href="{{ url_for('categories') }}">
+          <div class="add-task">Danh sách danh mục</div>
+        </a>
       </div>
 
       <div class="grid grid-cols-12 rounded-sm overflow-hidden border border-black">
         <div class="col-span-2 colGrid">
-          <ul class="flex flex-wrap gap-x-2 gap-4">
+          <ul class="flex flex-wrap gap-x-1 gap-2">
             {% for category in categories %}
               {% if request.args.get('category') == category.id %}
                 <li>
-                  <span class="py-2 px-3 bg-neutral-300 hover:bg-neutral-300 text-black rounded cursor-not-allowed">
+                  <span class="p-1.5 text-sm bg-neutral-300 hover:bg-neutral-300 text-black rounded cursor-not-allowed">
                       {{ category.name }}
                   </span>
                 </li>
               {% else %}
                 <li>
-                  <a href="{{ url_for('index', category=category.id) }}" class="py-2 px-3 bg-blue-700 hover:bg-blue-400 cursor-pointer rounded text-white">
+                  <a href="{{ url_for('index', category=category.id) }}" class="p-1.5 text-sm  bg-blue-700 hover:bg-blue-400 cursor-pointer rounded text-white">
                       {{ category.name }}
                   </a>
                 </li>
